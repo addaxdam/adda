@@ -6,140 +6,147 @@
 <title>ELUZA BINGO</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#10162f;
+  color:white;
+  text-align:center;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #10162f;
-  color: white;
-  text-align: center;
+.container{
+  max-width:600px;
+  margin:auto;
+  padding:25px 15px 50px;
 }
 
-.container {
-  max-width: 600px;
-  margin: auto;
-  padding: 25px 15px 50px;
+h1{
+  font-size:45px;
+  margin:10px 0;
 }
 
-h1 {
-  font-size: 48px;
-  margin: 10px 0;
+.subtitle{
+  font-size:19px;
+  color:#d5d5df;
+  margin-bottom:20px;
 }
 
-.subtitle {
-  font-size: 20px;
-  color: #d5d5df;
-  margin-bottom: 25px;
+.card{
+  background:#303653;
+  border-radius:25px;
+  padding:22px;
+  margin:18px 0;
 }
 
-.card {
-  background: #303653;
-  border-radius: 25px;
-  padding: 25px;
-  margin: 20px 0;
+.balance{
+  font-size:21px;
+  font-weight:bold;
 }
 
-.balance {
-  font-size: 22px;
-  font-weight: bold;
+.called{
+  background:#202640;
 }
 
-.called {
-  background: #202640;
-  border-radius: 20px;
-  padding: 20px;
+.called-label{
+  font-size:17px;
+  color:#ddd;
 }
 
-.called-label {
-  font-size: 18px;
-  color: #ddd;
+.number{
+  font-size:65px;
+  font-weight:bold;
+  margin:8px;
 }
 
-.number {
-  font-size: 65px;
-  font-weight: bold;
-  margin: 10px;
+.letter{
+  font-size:25px;
+  font-weight:bold;
 }
 
-.letter {
-  font-size: 25px;
-  font-weight: bold;
+.status{
+  font-size:19px;
+  font-weight:bold;
+  margin:15px;
 }
 
-button {
-  border: none;
-  border-radius: 15px;
-  padding: 16px 25px;
-  margin: 8px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
+button{
+  border:0;
+  border-radius:15px;
+  padding:15px 22px;
+  margin:6px;
+  font-size:17px;
+  font-weight:bold;
 }
 
-.start {
-  background: #22c55e;
-  color: white;
+.start{background:#22c55e;color:white}
+.stop{background:#ef4444;color:white}
+.reset{background:#8b5cf6;color:white}
+
+button:disabled{
+  opacity:.5;
 }
 
-.stop {
-  background: #ef4444;
-  color: white;
+.bingo-card{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
 }
 
-.reset {
-  background: #8b5cf6;
-  color: white;
+.cell{
+  background:white;
+  color:#111827;
+  border-radius:10px;
+  min-height:62px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-button:disabled {
-  opacity: 0.5;
+.header{
+  background:#e5e7eb;
+  cursor:default;
 }
 
-.bingo-card {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
+.free{
+  background:#a855f7;
+  color:white;
 }
 
-.cell {
-  background: white;
-  color: #111827;
-  border-radius: 12px;
-  min-height: 65px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: bold;
+.marked{
+  background:#22c55e;
+  color:white;
 }
 
-.header {
-  background: #e5e7eb;
+.winning{
+  background:#facc15 !important;
+  color:#111827 !important;
+  animation:pulse .7s infinite alternate;
 }
 
-.free {
-  background: #a855f7;
-  color: white;
+@keyframes pulse{
+  from{transform:scale(1)}
+  to{transform:scale(1.08)}
 }
 
-.marked {
-  background: #22c55e;
-  color: white;
+.history{
+  font-size:15px;
+  line-height:1.8;
+  color:#ddd;
 }
 
-.history {
-  font-size: 16px;
-  line-height: 1.8;
-  color: #ddd;
-}
-
-.status {
-  font-size: 19px;
-  margin: 15px;
-  font-weight: bold;
+.bingo-message{
+  display:none;
+  background:#16a34a;
+  border-radius:18px;
+  padding:18px;
+  margin:15px 0;
+  font-size:25px;
+  font-weight:bold;
 }
 </style>
 </head>
@@ -148,121 +155,95 @@ button:disabled {
 
 <div class="container">
 
-  <h1>👑 ELUZA BINGO</h1>
-  <div class="subtitle">Play Bingo • Have Fun • Win</div>
+<h1>👑 ELUZA BINGO</h1>
+<div class="subtitle">Play Bingo • Have Fun • Win</div>
 
-  <div class="card">
-    <div id="welcome" class="balance">
-      Welcome, adda 👋
-    </div>
-    <br>
-    💰 Demo Balance: <span id="balance">100</span> ETB
+<div class="card">
+  <div class="balance">
+    Welcome, player 👋
+  </div>
+  <br>
+  💰 Demo Balance:
+  <span id="balance">100</span> ETB
+</div>
+
+<div class="card called">
+
+  <div class="called-label">CURRENT NUMBER</div>
+
+  <div id="letter" class="letter">—</div>
+
+  <div id="number" class="number">—</div>
+
+  <div id="status" class="status">
+    Press START GAME
   </div>
 
-  <div class="card called">
-    <div class="called-label">CURRENT NUMBER</div>
-    <div id="letter" class="letter">—</div>
-    <div id="number" class="number">—</div>
-    <div id="status" class="status">Press START GAME</div>
-
-    <button class="start" id="startBtn" onclick="startGame()">
-      🎲 START GAME
-    </button>
-
-    <button class="stop" id="stopBtn" onclick="stopGame()" disabled>
-      ⛔ STOP
-    </button>
-
-    <button class="reset" onclick="resetGame()">
-      🔄 RESET
-    </button>
+  <div id="bingoMessage" class="bingo-message">
+    🎉 BINGO! 🎉
   </div>
 
-  <div class="card">
-    <h2>Your Bingo Card</h2>
+  <button class="start" id="startBtn" onclick="startGame()">
+    🎲 START GAME
+  </button>
 
-    <div class="bingo-card" id="bingoCard">
-      <div class="cell header">B</div>
-      <div class="cell header">I</div>
-      <div class="cell header">N</div>
-      <div class="cell header">G</div>
-      <div class="cell header">O</div>
-    </div>
-  </div>
+  <button class="stop" id="stopBtn" onclick="stopGame()" disabled>
+    ⛔ STOP
+  </button>
 
-  <div class="card">
-    <h2>📢 Called Numbers</h2>
-    <div id="history" class="history">
-      No numbers called yet.
-    </div>
-  </div>
+  <button class="reset" onclick="resetGame()">
+    🔄 RESET
+  </button>
+
+</div>
+
+<div class="card">
+
+<h2>Your Bingo Card</h2>
+
+<div class="bingo-card" id="bingoCard">
+
+<div class="cell header">B</div>
+<div class="cell header">I</div>
+<div class="cell header">N</div>
+<div class="cell header">G</div>
+<div class="cell header">O</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>📢 Called Numbers</h2>
+
+<div id="history" class="history">
+No numbers called yet.
+</div>
+
+</div>
 
 </div>
 
 <script>
 
-let numbers = [];
-let calledNumbers = [];
-let timer = null;
-let playing = false;
+let numbers=[];
+let calledNumbers=[];
+let timer=null;
+let playing=false;
+let bingoWon=false;
 
-const balance = 100;
+function randomNumbers(min,max,count){
 
-/* Create Bingo card */
-function createCard() {
+  let result=[];
 
-  const card = document.getElementById("bingoCard");
+  while(result.length<count){
 
-  const columns = [
-    randomNumbers(1, 15, 5),
-    randomNumbers(16, 30, 5),
-    randomNumbers(31, 45, 5),
-    randomNumbers(46, 60, 5),
-    randomNumbers(61, 75, 5)
-  ];
+    let n=Math.floor(
+      Math.random()*(max-min+1)
+    )+min;
 
-  for (let row = 0; row < 5; row++) {
-
-    for (let col = 0; col < 5; col++) {
-
-      const cell = document.createElement("div");
-      cell.className = "cell";
-
-      if (row === 2 && col === 2) {
-
-        cell.textContent = "FREE";
-        cell.classList.add("free");
-
-      } else {
-
-        cell.textContent = columns[col][row];
-        cell.dataset.number = columns[col][row];
-
-        cell.onclick = function() {
-
-          if (calledNumbers.includes(Number(this.dataset.number))) {
-            this.classList.toggle("marked");
-            checkBingo();
-          }
-
-        };
-      }
-
-      card.appendChild(cell);
-    }
-  }
-}
-
-/* Generate unique numbers */
-function randomNumbers(min, max, count) {
-
-  let result = [];
-
-  while (result.length < count) {
-
-    let n = Math.floor(Math.random() * (max - min + 1)) + min;
-
-    if (!result.includes(n)) {
+    if(!result.includes(n)){
       result.push(n);
     }
   }
@@ -270,128 +251,11 @@ function randomNumbers(min, max, count) {
   return result;
 }
 
-/* Create all numbers 1-75 */
-function createNumbers() {
+function createCard(){
 
-  numbers = [];
+  const card=document.getElementById("bingoCard");
 
-  for (let i = 1; i <= 75; i++) {
-    numbers.push(i);
-  }
-
-  numbers.sort(() => Math.random() - 0.5);
-}
-
-/* Start game */
-function startGame() {
-
-  if (playing) return;
-
-  createNumbers();
-
-  calledNumbers = [];
-  playing = true;
-
-  document.getElementById("startBtn").disabled = true;
-  document.getElementById("stopBtn").disabled = false;
-
-  document.getElementById("status").textContent =
-    "Game running...";
-
-  callNumber();
-
-  timer = setInterval(callNumber, 3000);
-}
-
-/* Call next number */
-function callNumber() {
-
-  if (numbers.length === 0) {
-
-    stopGame();
-
-    document.getElementById("status").textContent =
-      "All 75 numbers have been called.";
-
-    return;
-  }
-
-  const n = numbers.shift();
-
-  calledNumbers.push(n);
-
-  let letter;
-
-  if (n <= 15) {
-    letter = "B";
-  } else if (n <= 30) {
-    letter = "I";
-  } else if (n <= 45) {
-    letter = "N";
-  } else if (n <= 60) {
-    letter = "G";
-  } else {
-    letter = "O";
-  }
-
-  document.getElementById("letter").textContent = letter;
-  document.getElementById("number").textContent = n;
-
-  document.getElementById("history").textContent =
-    calledNumbers.join(" • ");
-
-  markCalledNumber(n);
-}
-
-/* Highlight called number on card */
-function markCalledNumber(n) {
-
-  const cells = document.querySelectorAll(".cell");
-
-  cells.forEach(cell => {
-
-    if (Number(cell.dataset.number) === n) {
-
-      cell.style.outline = "4px solid #facc15";
-      cell.style.transform = "scale(1.05)";
-
-    }
-
-  });
-}
-
-/* Stop game */
-function stopGame() {
-
-  clearInterval(timer);
-
-  timer = null;
-  playing = false;
-
-  document.getElementById("startBtn").disabled = false;
-  document.getElementById("stopBtn").disabled = true;
-
-  document.getElementById("status").textContent =
-    "Game paused.";
-}
-
-/* Reset */
-function resetGame() {
-
-  stopGame();
-
-  calledNumbers = [];
-  numbers = [];
-
-  document.getElementById("letter").textContent = "—";
-  document.getElementById("number").textContent = "—";
-  document.getElementById("status").textContent =
-    "Press START GAME";
-
-  document.getElementById("history").textContent =
-    "No numbers called yet.";
-
-  document.getElementById("bingoCard").innerHTML = `
+  card.innerHTML=`
     <div class="cell header">B</div>
     <div class="cell header">I</div>
     <div class="cell header">N</div>
@@ -399,32 +263,370 @@ function resetGame() {
     <div class="cell header">O</div>
   `;
 
-  createCard();
+  const columns=[
+    randomNumbers(1,15,5),
+    randomNumbers(16,30,5),
+    randomNumbers(31,45,5),
+    randomNumbers(46,60,5),
+    randomNumbers(61,75,5)
+  ];
+
+  for(let row=0;row<5;row++){
+
+    for(let col=0;col<5;col++){
+
+      const cell=document.createElement("div");
+
+      cell.className="cell";
+
+      if(row===2 && col===2){
+
+        cell.textContent="FREE";
+        cell.classList.add("free");
+
+      }else{
+
+        cell.textContent=columns[col][row];
+
+        cell.dataset.number=columns[col][row];
+
+        cell.dataset.row=row;
+
+        cell.dataset.col=col;
+
+        cell.onclick=function(){
+
+          if(
+            calledNumbers.includes(
+              Number(this.dataset.number)
+            )
+          ){
+
+            this.classList.toggle("marked");
+
+            checkBingo();
+
+          }
+
+        };
+
+      }
+
+      card.appendChild(cell);
+
+    }
+
+  }
+
 }
 
-/* Check Bingo */
-function checkBingo() {
+function createNumbers(){
 
-  const cells = document.querySelectorAll(".cell");
-  let marked = [];
+  numbers=[];
 
-  cells.forEach(cell => {
+  for(let i=1;i<=75;i++){
+    numbers.push(i);
+  }
 
-    if (
-      cell.classList.contains("marked") ||
-      cell.classList.contains("free")
-    ) {
-      marked.push(cell);
+  numbers.sort(()=>Math.random()-0.5);
+
+}
+
+function startGame(){
+
+  if(playing || bingoWon) return;
+
+  createNumbers();
+
+  calledNumbers=[];
+
+  playing=true;
+
+  document.getElementById("startBtn").disabled=true;
+
+  document.getElementById("stopBtn").disabled=false;
+
+  document.getElementById("status").textContent=
+    "Game running...";
+
+  document.getElementById("bingoMessage").style.display=
+    "none";
+
+  callNumber();
+
+  timer=setInterval(callNumber,3000);
+
+}
+
+function callNumber(){
+
+  if(numbers.length===0){
+
+    stopGame();
+
+    document.getElementById("status").textContent=
+      "All 75 numbers called.";
+
+    return;
+  }
+
+  const n=numbers.shift();
+
+  calledNumbers.push(n);
+
+  let letter;
+
+  if(n<=15){
+    letter="B";
+  }else if(n<=30){
+    letter="I";
+  }else if(n<=45){
+    letter="N";
+  }else if(n<=60){
+    letter="G";
+  }else{
+    letter="O";
+  }
+
+  document.getElementById("letter").textContent=letter;
+
+  document.getElementById("number").textContent=n;
+
+  document.getElementById("history").textContent=
+    calledNumbers.join(" • ");
+
+  highlightCalled(n);
+
+}
+
+function highlightCalled(n){
+
+  document.querySelectorAll(".cell").forEach(cell=>{
+
+    if(Number(cell.dataset.number)===n){
+
+      cell.style.outline="4px solid #facc15";
+
     }
 
   });
 
-  if (marked.length >= 5) {
+}
 
-    document.getElementById("status").textContent =
-      "🎉 BINGO! Check your winning line.";
+function stopGame(){
+
+  clearInterval(timer);
+
+  timer=null;
+
+  playing=false;
+
+  document.getElementById("startBtn").disabled=false;
+
+  document.getElementById("stopBtn").disabled=true;
+
+}
+
+function checkBingo(){
+
+  if(bingoWon) return;
+
+  const cells=[
+    ...document.querySelectorAll(".cell")
+  ];
+
+  const board=Array.from(
+    {length:5},
+    ()=>Array(5).fill(false)
+  );
+
+  cells.forEach(cell=>{
+
+    if(cell.classList.contains("header")) return;
+
+    const row=Number(cell.dataset.row);
+
+    const col=Number(cell.dataset.col);
+
+    if(cell.classList.contains("marked") ||
+       cell.classList.contains("free")){
+
+      board[row][col]=true;
+
+    }
+
+  });
+
+  let winningCells=[];
+
+  /* ROWS */
+
+  for(let r=0;r<5;r++){
+
+    if(board[r].every(Boolean)){
+
+      for(let c=0;c<5;c++){
+
+        winningCells.push(
+          [r,c]
+        );
+
+      }
+
+      announceBingo(winningCells);
+
+      return;
+    }
 
   }
+
+  /* COLUMNS */
+
+  for(let c=0;c<5;c++){
+
+    let complete=true;
+
+    for(let r=0;r<5;r++){
+
+      if(!board[r][c]){
+        complete=false;
+      }
+
+    }
+
+    if(complete){
+
+      for(let r=0;r<5;r++){
+
+        winningCells.push(
+          [r,c]
+        );
+
+      }
+
+      announceBingo(winningCells);
+
+      return;
+    }
+
+  }
+
+  /* DIAGONAL 1 */
+
+  let diagonal1=true;
+
+  for(let i=0;i<5;i++){
+
+    if(!board[i][i]){
+      diagonal1=false;
+    }
+
+  }
+
+  if(diagonal1){
+
+    for(let i=0;i<5;i++){
+
+      winningCells.push(
+        [i,i]
+      );
+
+    }
+
+    announceBingo(winningCells);
+
+    return;
+  }
+
+  /* DIAGONAL 2 */
+
+  let diagonal2=true;
+
+  for(let i=0;i<5;i++){
+
+    if(!board[i][4-i]){
+      diagonal2=false;
+    }
+
+  }
+
+  if(diagonal2){
+
+    for(let i=0;i<5;i++){
+
+      winningCells.push(
+        [i,4-i]
+      );
+
+    }
+
+    announceBingo(winningCells);
+
+    return;
+  }
+
+}
+
+function announceBingo(winningCells){
+
+  bingoWon=true;
+
+  stopGame();
+
+  document.getElementById("status").textContent=
+    "🏆 WINNER!";
+
+  document.getElementById("bingoMessage").style.display=
+    "block";
+
+  const cells=[
+    ...document.querySelectorAll(".cell")
+  ];
+
+  winningCells.forEach(([row,col])=>{
+
+    cells.forEach(cell=>{
+
+      if(
+        Number(cell.dataset.row)===row &&
+        Number(cell.dataset.col)===col
+      ){
+
+        cell.classList.add("winning");
+
+      }
+
+    });
+
+  });
+
+}
+
+function resetGame(){
+
+  stopGame();
+
+  numbers=[];
+
+  calledNumbers=[];
+
+  bingoWon=false;
+
+  document.getElementById("letter").textContent="—";
+
+  document.getElementById("number").textContent="—";
+
+  document.getElementById("status").textContent=
+    "Press START GAME";
+
+  document.getElementById("history").textContent=
+    "No numbers called yet.";
+
+  document.getElementById("bingoMessage").style.display=
+    "none";
+
+  createCard();
+
 }
 
 createCard();
