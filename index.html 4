@@ -1,0 +1,372 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ELUZA Bingo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELUZA BINGO</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#0b1238;color:white}
+header{padding:18px;text-align:center;background:#11194a;border-bottom:1px solid #29346f}
+.logo{font-size:34px;font-weight:900;color:#ffd32a}.tag{color:#ddd;margin:5px 0}
+.wrap{max-width:900px;margin:auto;padding:18px}.card{background:#111b4d;border-radius:18px;padding:18px;margin-bottom:18px;box-shadow:0 8px 25px #0005}
+.hero{text-align:center;background:linear-gradient(135deg,#2912a8,#6418d8);padding:28px;border-radius:18px}
+.hero h1{font-size:42px;margin:0 0 8px}.hero p{font-size:18px}
+button{border:0;border-radius:12px;padding:13px 20px;font-size:16px;font-weight:bold;cursor:pointer;background:#18d878;color:#06152a}
+.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{flex:1;min-width:150px;background:#0a1339;padding:15px;border-radius:12px;text-align:center}
+.board{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:12px}
+.cell{min-height:60px;background:#f5f5ff;color:#172052;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;cursor:pointer}
+.head{background:#ff2d72;color:white;cursor:default}.free{background:#7c3aed;color:white}
+.cell.marked{background:#19d879;color:#071c24}
+.controls{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+#ball{font-size:38px;font-weight:900;color:#ffd32a}
+.notice{text-align:center;color:#bfc8ff;font-size:14px}
+@media(max-width:600px){.hero h1{font-size:32px}.cell{min-height:52px;font-size:17px}.wrap{padding:10px}}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #111827, #312e81);
+  color: white;
+  min-height: 100vh;
+  text-align: center;
+}
+.container {
+  width: 94%;
+  max-width: 500px;
+  margin: auto;
+  padding: 20px 10px 40px;
+}
+h1 {
+  margin-top: 10px;
+  font-size: 38px;
+  letter-spacing: 2px;
+}
+.subtitle {
+  color: #d1d5db;
+  margin-bottom: 20px;
+}
+.card {
+  background: rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+input {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  margin-bottom: 12px;
+}
+button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #facc15;
+  color: #111827;
+  margin-top: 8px;
+}
+button:hover {
+  opacity: 0.9;
+}
+.wallet {
+  font-size: 20px;
+  font-weight: bold;
+}
+.bingo-title {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+.bingo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  max-width: 420px;
+  margin: auto;
+}
+.header {
+  background: #facc15;
+  color: #111827;
+  font-weight: bold;
+}
+.cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: #111827;
+  border-radius: 8px;
+  font-size: 19px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.cell.selected {
+  background: #22c55e;
+  color: white;
+}
+.free {
+  background: #a855f7;
+  color: white;
+  cursor: default;
+}
+.called {
+  font-size: 26px;
+  font-weight: bold;
+  margin: 15px 0;
+}
+.status {
+  margin-top: 12px;
+  color: #d1d5db;
+  min-height: 25px;
+}
+.hidden {
+  display: none;
+}
+.small {
+  color: #9ca3af;
+  font-size: 13px;
+  margin-top: 20px;
+}
+</style>
+</head>
+<body>
+<header><div class="logo">👑 ELUZA BINGO</div><div class="tag">Play • Win • Be Lucky</div></header>
+<main class="wrap">
+<section class="hero">
+<h1>ELUZA Bingo</h1>
+<p>Play the demo game and test your bingo card.</p>
+<button onclick="newGame()">Play Now</button>
+</section>
+<section class="card">
+<div class="stats">
+<div class="stat">Players<br><b id="players">248</b></div>
+<div class="stat">Prize Pool<br><b>1,000 ETB</b></div>
+<div class="stat">Balance<br><b>500 ETB (Demo)</b></div>
+</div>
+</section>
+<section class="card">
+<h2>🎟️ Your Bingo Card</h2>
+<div class="board" id="board"></div>
+<div class="controls" style="margin-top:18px">
+<div>Current Ball<br><span id="ball">—</span></div>
+<button onclick="callBall()">Call Next Ball</button>
+<button onclick="newGame()">New Game</button>
+<div class="container">
+  <h1>👑 ELUZA BINGO</h1>
+  <div class="subtitle">Play Bingo • Have Fun • Win</div>
+  <!-- LOGIN -->
+  <div class="card" id="loginBox">
+    <h2>Player Login</h2>
+    <input
+      type="text"
+      id="playerName"
+      placeholder="Enter your player name"
+    >
+    <button onclick="startGame()">
+      CONTINUE
+    </button>
+  </div>
+  <!-- GAME -->
+  <div id="gameBox" class="hidden">
+    <div class="card">
+      <h2 id="welcome"></h2>
+      <div class="wallet">
+        💰 Demo Balance: <span id="balance">100</span> ETB
+      </div>
+    </div>
+    <div class="card">
+      <div class="bingo-title">Your Bingo Card</div>
+      <div class="bingo-grid">
+        <div class="cell header">B</div>
+        <div class="cell header">I</div>
+        <div class="cell header">N</div>
+        <div class="cell header">G</div>
+        <div class="cell header">O</div>
+        <div class="cell" onclick="selectCell(this)">7</div>
+        <div class="cell" onclick="selectCell(this)">19</div>
+        <div class="cell" onclick="selectCell(this)">33</div>
+        <div class="cell" onclick="selectCell(this)">48</div>
+        <div class="cell" onclick="selectCell(this)">62</div>
+        <div class="cell" onclick="selectCell(this)">3</div>
+        <div class="cell" onclick="selectCell(this)">22</div>
+        <div class="cell" onclick="selectCell(this)">39</div>
+        <div class="cell" onclick="selectCell(this)">51</div>
+        <div class="cell" onclick="selectCell(this)">70</div>
+        <div class="cell" onclick="selectCell(this)">12</div>
+        <div class="cell" onclick="selectCell(this)">28</div>
+        <div class="cell free">FREE</div>
+        <div class="cell" onclick="selectCell(this)">57</div>
+        <div class="cell" onclick="selectCell(this)">66</div>
+        <div class="cell" onclick="selectCell(this)">15</div>
+        <div class="cell" onclick="selectCell(this)">25</div>
+        <div class="cell" onclick="selectCell(this)">42</div>
+        <div class="cell" onclick="selectCell(this)">53</div>
+        <div class="cell" onclick="selectCell(this)">74</div>
+        <div class="cell" onclick="selectCell(this)">9</div>
+        <div class="cell" onclick="selectCell(this)">17</div>
+        <div class="cell" onclick="selectCell(this)">35</div>
+        <div class="cell" onclick="selectCell(this)">59</div>
+        <div class="cell" onclick="selectCell(this)">68</div>
+      </div>
+      <button onclick="callNumber()">
+        🎱 CALL NUMBER
+      </button>
+      <div class="called">
+        Called: <span id="calledNumber">-</span>
+      </div>
+      <div class="status" id="status">
+        Press CALL NUMBER to start.
+      </div>
+      <button onclick="checkBingo()">
+        🏆 CHECK BINGO
+      </button>
+    </div>
+    <div class="card">
+      <h3>Game Controls</h3>
+      <button onclick="newGame()">
+        🔄 NEW GAME
+      </button>
+      <button onclick="logout()">
+        🚪 LOG OUT
+      </button>
+    </div>
+  </div>
+  <div class="small">
+    ELUZA BINGO © 2026
+  </div>
+</div>
+<p class="notice">Demo mode only. No real-money deposits or withdrawals are enabled.</p>
+</section>
+</main>
+
+<script>
+let numbers=[], called=new Set(), gameOver=false;
+function shuffle(a){return a.sort(()=>Math.random()-0.5)}
+function makeCard(){
+  const cols=[];
+  for(let c=0;c<5;c++){
+    let start=c*15+1, arr=[];
+    for(let n=start;n<start+15;n++)arr.push(n);
+    cols.push(shuffle(arr).slice(0,5));
+let balance = 100;
+let calledNumbers = [];
+function startGame() {
+  const name = document.getElementById("playerName").value.trim();
+  if (name === "") {
+    alert("Please enter your player name.");
+    return;
+  }
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("gameBox").classList.remove("hidden");
+  document.getElementById("welcome").innerText =
+    "Welcome, " + name + " 👋";
+  document.getElementById("balance").innerText = balance;
+}
+function selectCell(cell) {
+  if (cell.classList.contains("free")) {
+    return;
+  }
+  numbers=[];
+  for(let r=0;r<5;r++)for(let c=0;c<5;c++)numbers.push(cols[c][r]);
+  numbers[12]="FREE";
+}
+function render(){
+  const b=document.getElementById("board"); b.innerHTML="";
+  ["B","I","N","G","O"].forEach(x=>{
+    const d=document.createElement("div");d.className="cell head";d.textContent=x;b.appendChild(d);
+  });
+  numbers.forEach((n,i)=>{
+    const d=document.createElement("div");d.className="cell";
+    if(n==="FREE"){d.classList.add("free","marked");d.textContent="FREE";}
+    else {d.textContent=n;d.onclick=()=>{if(called.has(n))d.classList.toggle("marked")}}
+    b.appendChild(d);
+  });
+}
+function newGame(){
+  called.clear();gameOver=false;document.getElementById("ball").textContent="—";
+  makeCard();render();
+}
+function callBall(){
+  if(gameOver)return;
+  const available=[];
+  for(let i=1;i<=75;i++)if(!called.has(i))available.push(i);
+  if(!available.length)return;
+  const n=available[Math.floor(Math.random()*available.length)];
+  called.add(n);document.getElementById("ball").textContent=n;
+  document.querySelectorAll(".cell").forEach(d=>{if(d.textContent==n)d.classList.add("marked")});
+  checkWin();
+}
+function checkWin(){
+  const cells=[...document.querySelectorAll(".cell")].slice(5);
+  for(let r=0;r<5;r++){
+    if([0,1,2,3,4].every(c=>cells[r*5+c].classList.contains("marked")))return win();
+  cell.classList.toggle("selected");
+}
+function callNumber() {
+  if (calledNumbers.length >= 75) {
+    document.getElementById("status").innerText =
+      "All numbers have been called.";
+    return;
+  }
+  for(let c=0;c<5;c++){
+    if([0,1,2,3,4].every(r=>cells[r*5+c].classList.contains("marked")))return win();
+  let number;
+  do {
+    number = Math.floor(Math.random() * 75) + 1;
+  } while (calledNumbers.includes(number));
+  calledNumbers.push(number);
+  document.getElementById("calledNumber").innerText = number;
+  document.getElementById("status").innerText =
+    "Number " + number + " has been called!";
+}
+function checkBingo() {
+  const selected = document.querySelectorAll(".cell.selected");
+  if (selected.length >= 5) {
+    document.getElementById("status").innerText =
+      "🎉 BINGO! Congratulations!";
+    alert("🎉 BINGO! Congratulations!");
+  } else {
+    document.getElementById("status").innerText =
+      "Keep playing. You need more marked numbers.";
+  }
+  if([0,6,12,18,24].every(i=>cells[i].classList.contains("marked")))return win();
+  if([4,8,12,16,20].every(i=>cells[i].classList.contains("marked")))return win();
+}
+function win(){gameOver=true;setTimeout(()=>alert("🎉 BINGO! Demo win!"),100)}
+newGame();
+function newGame() {
+  calledNumbers = [];
+  document.getElementById("calledNumber").innerText = "-";
+  document.querySelectorAll(".cell.selected")
+    .forEach(cell => cell.classList.remove("selected"));
+  document.getElementById("status").innerText =
+    "New game started!";
+}
+function logout() {
+  document.getElementById("gameBox").classList.add("hidden");
+  document.getElementById("loginBox").classList.remove("hidden");
+  document.getElementById("playerName").value = "";
+  calledNumbers = [];
+}
+</script>
+</body>
+</html>
+0 commit comments
+Comments
+0
+ (0)
+Comment
+You're not receiving notifications from this thread.
+
+There are no files selected for viewing
